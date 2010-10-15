@@ -8,7 +8,19 @@ $pgs = new pgs(array(
   'tipo' => 'CP',
   'tipo_frete' => PGS_TIPO_FRETE,
   'ref_transacao' => $db->f("order_id"),
+  'item_frete_1' => number_format($db->f("order_shipping"),2,',',''),
 ));
+
+// Pega o peso do produto corrente
+$db2 = new ps_DB();
+$db2->query("SELECT produto.product_weight FROM #__vm_product AS produto 
+		LEFT JOIN #__vm_order_item AS itens_pedido 
+                ON produto.product_id = itens_pedido.product_id
+                WHERE itens_pedido.order_id = '".$db->f('order_id')."'");
+// Trata o formato do peso (em kg)
+$peso = $db2->f('product_weight');
+$peso = number_format($peso, -1);
+$peso = str_replace('.', '', $peso);// Limite 30kg
 
 list($telefone_ddd, $telefone) = trataTelefone($user->phone_1);
 list($endereco, $endereco_num) = trataEndereco("{$user->address_1} {$user->address_2}");
@@ -27,12 +39,19 @@ $pgs->cliente(array(
   'email' => $user->user_email,
 ));
 
+// seta o desconto
+$pgs->seta_desconto(
+	$db->f("coupon_discount"),
+	$db->f("order_subtotal")
+);
+
 while ($db1->next_record()) {
   $pgs->adicionar(array(
     'id' => $db1->f('order_item_sku'),
     'quantidade' => $db1->f('product_quantity'),
     'valor' => $db1->f('product_item_price'),
-    'descricao' => strip_tags($db1->f('order_item_name') . ' - ' . ($db1->f('product_attribute'))),
+    'descricao' => strip_tags($db1->f('order_item_name') . ' - ' . ($db1->f('product_attribute'))), 
+    'peso' => $peso
   ));
 }
 $pgs->mostra();
