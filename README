@@ -30,3 +30,9 @@ Clique no botão "Save". Você será enviado para a tela de listagem de métodos
 Na aba de configuração defina seu código TOKEN do PagSeguro, seu e-mail no PagSeguro e o Tipo de Frete desejado.
 
 Clique no Botão "Save" para gravar sua configurações. Pronto! O seu VirtueMart está com o módulo PagSeguro instalado e seus clientes poderão comprar através dele.
+
+Change Log
+
+- 02/03/2011
+- Alterando o nome do diretório para conter o número da última versão
+
