@@ -1,0 +1,46 @@
+<?php
+include (JPATH_COMPONENT_ADMINISTRATOR.'/classes/payment/pagseguro/biblioteca/pgs.php');
+include (JPATH_COMPONENT_ADMINISTRATOR.'/classes/payment/pagseguro/biblioteca/tratadados.php');
+$db1 = new ps_DB();
+$db1->query("SELECT * FROM #__vm_order_item WHERE order_id = '".$db->f('order_id')."'");
+$pgs = new pgs(array(
+  'email_cobranca' => PGS_EMAIL,
+  'tipo' => 'CP',
+  'tipo_frete' => PGS_TIPO_FRETE,
+  'ref_transacao' => $db->f("order_id"),
+  'item_frete_1' => number_format($db->f("order_shipping"),2,',',''),
+));
+
+list($telefone_ddd, $telefone) = trataTelefone($user->phone_1);
+list($endereco, $endereco_num) = trataEndereco("{$user->address_1} {$user->address_2}");
+
+$pgs->cliente(array(
+  'nome' => $user->first_name." ".$user->last_name,
+  'cep' => $user->zip,
+  'end' => $endereco,
+  'num' => $endereco_num,
+  'compl' => $user->address_2,
+  'cidade' => $user->city,
+  'uf' => $user->state,
+  'pais' => $user->country,
+  'ddd' => $telefone_ddd,
+  'tel' => $telefone,
+  'email' => $user->user_email,
+));
+
+// seta o desconto
+$pgs->seta_desconto(
+	$db->f("coupon_discount"),
+	$db->f("order_subtotal")
+);
+
+while ($db1->next_record()) {
+  $pgs->adicionar(array(
+    'id' => $db1->f('order_item_sku'),
+    'quantidade' => $db1->f('product_quantity'),
+    'valor' => $db1->f('product_item_price'),
+    'descricao' => strip_tags($db1->f('order_item_name') . ' - ' . ($db1->f('product_attribute'))),
+  ));
+}
+$pgs->mostra();
+?>

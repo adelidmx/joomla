@@ -1,0 +1,32 @@
+Módulo PagSeguro para Joomla
+
+Instalação do módulo PagSeguro para Joomla com VirtueMart
+
+=== Pré-requisitos ===
+
+- Joomla em sua última versão. [link http://joomla.com]
+- VirtueMart instalado. [link http://virtuemart.net]
+
+
+=== Instalação do Módulo ===
+
+Descompacte os arquivos do pacote na pasta de instalação do seu Joomla, os arquivos já estão colocados em suas respectivas pastas. Não havendo necessidade de colocar os aquivos em pastas separadas.
+
+Vá no menu principal do VirtueMart e acesse o menu "Store > Add Payment Method"
+
+Coloque no formulário as seguintes informações.
+
+|| Campo              | Valor                        ||
+| Active              | deixe marcado                 |
+| Payment Method Name | PagSeguro                     |
+| Code                | PGS                           |
+| Payment class name  | ps_pagseguro                  |
+| Payment method type | HTML-Form bases (e.g.) PayPal |
+
+Os outros campos são opcionais. Na aba de configurações ("Configuration") cole o código que se encontra na raiz do projeto chamado "pagseguro_payment_method_code".
+
+Clique no botão "Save". Você será enviado para a tela de listagem de métodos. Clique no método PagSeguro para editar seus dados.
+
+Na aba de configuração defina seu código TOKEN do PagSeguro, seu e-mail no PagSeguro e o Tipo de Frete desejado.
+
+Clique no Botão "Save" para gravar sua configurações. Pronto! O seu VirtueMart está com o módulo PagSeguro instalado e seus clientes poderão comprar através dele.
