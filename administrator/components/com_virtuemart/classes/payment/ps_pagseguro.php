@@ -1,6 +1,7 @@
 <?php
 if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 
+
 class ps_pagseguro {
   var $classname = 'ps_pagseguro';
   var $payment_code = 'PGS';
@@ -16,8 +17,8 @@ class ps_pagseguro {
       array('name' => 'token',      'label' => 'Informação sobre seu TOKEN, que você consegue no site do pagseguro.'),
       array('name' => 'email',      'label' => 'O seu e-mail de login no PagSeguro'),
       array('name' => 'tipo_frete', 'label' => 'Tipo de frete', 'type' => 'select' , 'options' => array(
-        'EN' => 'PAC - Encomenda',
-        'SD' => 'Sedex',
+        'PAC' => 'PAC - Encomenda',
+        'SEDEX' => 'Sedex',
       ))
     );
   }
