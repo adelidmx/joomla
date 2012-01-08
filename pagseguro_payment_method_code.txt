@@ -1,0 +1,5 @@
+<?php
+
+include (JPATH_COMPONENT_ADMINISTRATOR.'/classes/payment/pagseguro/LoadLibrary.php');
+
+?>
