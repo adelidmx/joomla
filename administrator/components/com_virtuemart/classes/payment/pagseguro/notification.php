@@ -11,7 +11,7 @@ class NotificationListener  {
 
     	if ( $code && $type ) {
 			
-    		$notificationType = new NotificationType($type);
+    		$notificationType = new PagSeguroNotificationType($type);
     		$strType = $notificationType->getTypeFromValue();
 			
 			switch($strType) {
@@ -44,11 +44,11 @@ class NotificationListener  {
     	* $credentials = PagSeguroConfig::getAccountCredentials();
     	*/
 
-    	$credentials = new AccountCredentials(PGS_EMAIL, PGS_TOKEN);
+    	$credentials = new PagSeguroAccountCredentials(PGS_EMAIL, PGS_TOKEN);
     	
     	try {
     		
-    		$transaction = NotificationService::checkTransaction($credentials, $notificationCode);
+        $transaction = PagSeguroNotificationService::checkTransaction($credentials, $notificationCode);
 
             self::validateTransaction($transaction);
 

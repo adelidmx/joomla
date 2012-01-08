@@ -3,7 +3,7 @@
 include (JPATH_COMPONENT_ADMINISTRATOR.'/classes/payment/pagseguro/PagSeguroLibrary/PagSeguroLibrary.php');
 
 // Instantiate a new payment request
-$paymentRequest = new PaymentRequest();
+$paymentRequest = new PagSeguroPaymentRequest();
 $pgs = new pgs();
 
 // Sets the currency
@@ -18,6 +18,7 @@ $frete = 0.00;
 if ($db->f("order_shipping")) {
     $frete = sprintf("%01.2f", $db->f("order_shipping"));
 }
+
 
 while ($db1->next_record()) {
     $paymentRequest->addItem(
@@ -34,7 +35,7 @@ while ($db1->next_record()) {
 $paymentRequest->setReference($db->f("order_id"));
 
 // Sets shipping information for this payment request
-$FREIGHT_CODE = ShippingType::getCodeByType(PGS_TIPO_FRETE);
+$FREIGHT_CODE = PagSeguroShippingType::getCodeByType(PGS_TIPO_FRETE);
 
 if( $FREIGHT_CODE ){ 
 
@@ -69,7 +70,7 @@ $paymentRequest->setSender(
 $paymentRequest->setRedirectUrl("http://www.lojamodelo.com.br");
 
 try {
-	$credentials = new AccountCredentials(PGS_EMAIL, PGS_TOKEN);
+	$credentials = new PagSeguroAccountCredentials(PGS_EMAIL, PGS_TOKEN);
 	
 	// Register this payment request in PagSeguro, to obtain the payment URL for redirect your customer.
 	if ($url = $paymentRequest->register($credentials)) {
