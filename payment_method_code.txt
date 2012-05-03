@@ -9,6 +9,7 @@ $pgs = new pgs(array(
   'tipo_frete' => PGS_TIPO_FRETE,
   'ref_transacao' => $db->f("order_id"),
   'item_frete_1' => number_format($db->f("order_shipping"),2,',',''),
+  'encoding'=> 'UTF-8', // adicionado o encoding para caracteres latinos
 ));
 
 list($telefone_ddd, $telefone) = trataTelefone($user->phone_1);
